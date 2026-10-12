@@ -1,26 +1,26 @@
-# Identifiants d'authentification Azure
+# Identifiants d'authentification Azure (Service Principal)
 variable "ARM_SUBSCRIPTION_ID" {
   type        = string
-  description = "identifiant de l’abonnement sur lequel Terraform déploiera les ressources"
+  description = "Identifiant de l'abonnement sur lequel Terraform déploiera les ressources"
   nullable    = false
 }
 
 variable "ARM_CLIENT_ID" {
   type        = string
-  description = "ID d'application (client), identifiant unique de votre SP"
+  description = "ID d'application (client), identifiant unique du Service Principal"
   nullable    = false
 }
 
 variable "ARM_CLIENT_SECRET" {
   type        = string
-  description = "mot de passe que Terraform utilisera pour s’authentifier"
+  description = "Mot de passe que Terraform utilisera pour s'authentifier"
   nullable    = false
   sensitive   = true
 }
 
 variable "ARM_TENANT_ID" {
   type        = string
-  description = "identifiant de l’annuaire Entra ID dans lequel est enregistré le SP"
+  description = "Identifiant de l'annuaire Entra ID dans lequel est enregistré le Service Principal"
   nullable    = false
 }
 
@@ -66,25 +66,29 @@ variable "os_disk_size_gb" {
   default     = 30
 }
 
-# Image Ubuntu 24.04 LTS (x64 Gen2)
+# Image Ubuntu 24.04 LTS (x64 Gen2) — vérifiée à denmarkeast via az vm image show
 variable "image_publisher" {
-  type    = string
-  default = "Canonical"
+  description = "Éditeur de l'image"
+  type        = string
+  default     = "Canonical"
 }
 
 variable "image_offer" {
-  type    = string
-  default = "0001-com-ubuntu-server-noble"
+  description = "Offre de l'image"
+  type        = string
+  default     = "ubuntu-24_04-lts"
 }
 
 variable "image_sku" {
-  type    = string
-  default = "24_04-lts-gen2"
+  description = "Référence (SKU) de l'image"
+  type        = string
+  default     = "server"
 }
 
 variable "image_version" {
-  type    = string
-  default = "latest"
+  description = "Version de l'image (latest = la plus récente)"
+  type        = string
+  default     = "latest"
 }
 
 # Accès SSH
@@ -94,12 +98,6 @@ variable "admin_username" {
   default     = "adminuser"
 }
 
-variable "ssh_public_key" {
-  description = "Clé publique SSH"
-  type        = string
-  sensitive   = true
-}
-
 # Tag environnement
 variable "environment_tag" {
   description = "Indique l'environnement de déploiement (dev, test, prod)"
@@ -107,9 +105,16 @@ variable "environment_tag" {
   default     = "dev"
 }
 
-# Accès SSH pour remote-exec 
-variable "ssh_private_key" {
-  description = "Clé privée SSH pour se connecter à la VM"
-  type        = string
-  sensitive   = true
-}
+# ✏️ Variables SSH désactivées jusqu'à l'étape de la VM
+# (une variable déclarée sans valeur bloque terraform plan)
+
+# variable "ssh_public_key" {
+#   description = "Clé publique SSH déposée dans la VM"
+#   type        = string
+# }
+
+# variable "ssh_private_key" {
+#   description = "Clé privée SSH pour remote-exec"
+#   type        = string
+#   sensitive   = true
+# }
