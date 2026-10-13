@@ -32,6 +32,7 @@ resource "azurerm_public_ip" "public_ip" {
   location            = azurerm_resource_group.rg.location
   sku                 = "Standard"
   # TODO ajouuter les tags
+  tags = local.common_tags
 
 }
 
