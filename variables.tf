@@ -48,6 +48,10 @@ variable "subnet_prefix" {
   default     = ["10.0.1.0/24"]
 }
 
+variable "allowed_ssh_cidr" {
+  description = "Adresse IP autorisé en connexion SSH"
+  type        = string
+}
 # Machine virtuelle
 variable "vm_name" {
   description = "Nom de la machine virtuelle"
