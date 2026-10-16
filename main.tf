@@ -74,4 +74,8 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-# **** 5. Associer le NSG à l'interface réseau ****
+# **** 5. Association du NSG avec la carte réseau ****
+resource "azurerm_network_interface_security_group_association" "nsg_assoc" {
+  network_interface_id      = azurerm_network_interface.nic.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
