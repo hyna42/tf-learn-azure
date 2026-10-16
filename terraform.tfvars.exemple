@@ -1,0 +1,37 @@
+# ============================================================
+#  Modèle de configuration — copier en terraform.tfvars
+#  ⚠️ Ne jamais commiter terraform.tfvars (secrets)
+# ============================================================
+
+# --- Authentification Azure (Service Principal) ---
+ARM_SUBSCRIPTION_ID = "00000000-0000-0000-0000-000000000000" # az account show → id
+ARM_TENANT_ID       = "00000000-0000-0000-0000-000000000000" # az account show → tenantId
+ARM_CLIENT_ID       = "00000000-0000-0000-0000-000000000000" # ID d'application du SP
+ARM_CLIENT_SECRET   = "<valeur-du-secret>"                   # Valeur du secret (pas l'ID)
+
+# --- Emplacement ---
+resource_group_name = "rg-demo"
+location            = "denmarkeast" # région où la taille de VM est disponible
+
+# --- Réseau ---
+allowed_ssh_cidr = "203.0.113.10/32" # ton IP publique : Invoke-RestMethod https://api.ipify.org
+# vnet_address_space = ["10.0.0.0/16"] # optionnel (valeur par défaut)
+# subnet_prefix      = ["10.0.1.0/24"] # optionnel (valeur par défaut)
+
+# --- Machine virtuelle ---
+vm_name         = "vm-ubuntu-demo"
+vm_size         = "Standard_B1s"
+os_disk_size_gb = 30
+
+# --- Image Ubuntu 24.04 LTS (vérifiée avec az vm image show) ---
+image_publisher = "Canonical"
+image_offer     = "ubuntu-24_04-lts"
+image_sku       = "server"
+image_version   = "latest"
+
+# --- Accès SSH ---
+admin_username      = "adminuser"
+ssh_public_key_path = "~/.ssh/azure-lab.pub" # clé PUBLIQUE uniquement
+
+# --- Tags ---
+environment_tag = "dev"
