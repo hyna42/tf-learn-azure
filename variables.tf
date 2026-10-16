@@ -109,16 +109,8 @@ variable "environment_tag" {
   default     = "dev"
 }
 
-# ✏️ Variables SSH désactivées jusqu'à l'étape de la VM
-# (une variable déclarée sans valeur bloque terraform plan)
-
-# variable "ssh_public_key" {
-#   description = "Clé publique SSH déposée dans la VM"
-#   type        = string
-# }
-
-# variable "ssh_private_key" {
-#   description = "Clé privée SSH pour remote-exec"
-#   type        = string
-#   sensitive   = true
-# }
+#Variables SSH désactivées jusqu'à l'étape de la VM
+variable "ssh_public_key" {
+  description = "Clé publique SSH déposée dans la VM"
+  type        = string
+}
