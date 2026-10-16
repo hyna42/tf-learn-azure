@@ -42,6 +42,7 @@ resource "azurerm_network_security_group" "nsg" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
+  # Ouvrir le port SSH
   security_rule {
     name                   = "Allow_SSH"
     priority               = 1001
@@ -58,3 +59,19 @@ resource "azurerm_network_security_group" "nsg" {
 
   tags = local.common_tags
 }
+
+# **** 4. Interface Réseau (NetworkInterface) ****
+resource "azurerm_network_interface" "nic" {
+  name                = "${var.vm_name}-nic"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.public_ip.id
+  }
+}
+
+# **** 5. Associer le NSG à l'interface réseau ****
