@@ -109,7 +109,6 @@ variable "environment_tag" {
   default     = "dev"
 }
 
-#Variables SSH désactivées jusqu'à l'étape de la VM
 variable "ssh_public_key" {
   description = "Clé publique SSH déposée dans la VM"
   type        = string

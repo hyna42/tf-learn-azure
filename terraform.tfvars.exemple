@@ -31,7 +31,7 @@ image_version   = "latest"
 
 # --- Accès SSH ---
 admin_username      = "adminuser"
-ssh_public_key_path = "~/.ssh/azure-lab.pub" # clé PUBLIQUE uniquement
+ssh_public_key = "~/.ssh/azure-lab.pub" # clé PUBLIQUE uniquement
 
 # --- Tags ---
 environment_tag = "dev"

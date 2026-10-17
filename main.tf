@@ -72,6 +72,8 @@ resource "azurerm_network_interface" "nic" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.public_ip.id
   }
+
+  tags = local.common_tags
 }
 
 # **** 5. Association du NSG avec la carte réseau ****
@@ -82,7 +84,7 @@ resource "azurerm_network_interface_security_group_association" "nsg_assoc" {
 
 # **** 6. Déploiement de la VM ubuntu ****
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                = "${var.vm_name}-vm"
+  name                = var.vm_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 
@@ -94,10 +96,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
   ]
 
   os_disk {
-    name = "${var.vm_name}-osdisk"
+    name                 = "${var.vm_name}-osdisk"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
-    disk_size_gb = var.os_disk_size_gb
+    disk_size_gb         = var.os_disk_size_gb
   }
   source_image_reference {
     publisher = var.image_publisher
@@ -108,7 +110,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   # authentification par une clé SSH publique
   admin_ssh_key {
     username   = var.admin_username
-    public_key = file("${var.ssh_public_key}")
+    public_key = file(var.ssh_public_key)
   }
 
   # authentification par mot de passe désactiv 
