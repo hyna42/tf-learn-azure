@@ -1,6 +1,6 @@
 # Terraform Azure — VM Ubuntu sécurisée (exercice IT-Connect)
 
-Déploie sur Microsoft Azure une VM **Ubuntu 24.04 LTS** joignable en **SSH**, avec un réseau dédié et un accès restreint à une seule IP. Exercice réalisé à partir du cours *L'Infrastructure as Code avec Terraform pour Microsoft Azure* (IT-Connect), adapté aux versions actuelles des outils.
+Déploie sur Microsoft Azure une VM **Ubuntu 24.04 LTS** joignable en **SSH**, avec un réseau dédié et un accès restreint à une seule IP. Exercice réalisé à partir du cours _L'Infrastructure as Code avec Terraform pour Microsoft Azure_ (IT-Connect), adapté aux versions actuelles des outils.
 
 ## Architecture
 
@@ -35,13 +35,13 @@ Toutes les ressources sont dans un groupe de ressources dédié, dans un VNet `1
 
 ## Prérequis
 
-| Outil | Version |
-|---|---|
-| Terraform | >= 1.16.5 |
-| Provider azurerm | ~> 5.9.0 |
-| Azure CLI | à jour (`az --version`) |
+| Outil            | Version                                       |
+| ---------------- | --------------------------------------------- |
+| Terraform        | >= 1.16.5                                     |
+| Provider azurerm | ~> 5.9.0                                      |
+| Azure CLI        | à jour (`az --version`)                       |
 | Abonnement Azure | avec un Service Principal (rôle Contributeur) |
-| Clé SSH | ed25519 ou RSA ≥ 2048 bits |
+| Clé SSH          | ed25519 ou RSA ≥ 2048 bits                    |
 
 ### Service Principal
 
@@ -51,12 +51,12 @@ Terraform s'authentifie avec un **Service Principal** (identité dédiée), et n
 2. **Certificats & secrets** → nouveau secret client → copier la **Valeur** (affichée une seule fois).
 3. **Abonnement** → **Contrôle d'accès (IAM)** → attribuer le rôle **Contributeur** à l'application.
 
-| Valeur Azure | Variable Terraform |
-|---|---|
-| ID d'application (client) | `ARM_CLIENT_ID` |
-| Valeur du secret client | `ARM_CLIENT_SECRET` |
-| ID de l'annuaire (locataire) | `ARM_TENANT_ID` |
-| ID d'abonnement | `ARM_SUBSCRIPTION_ID` |
+| Valeur Azure                 | Variable Terraform    |
+| ---------------------------- | --------------------- |
+| ID d'application (client)    | `ARM_CLIENT_ID`       |
+| Valeur du secret client      | `ARM_CLIENT_SECRET`   |
+| ID de l'annuaire (locataire) | `ARM_TENANT_ID`       |
+| ID d'abonnement              | `ARM_SUBSCRIPTION_ID` |
 
 ### Clé SSH dédiée
 
@@ -74,12 +74,12 @@ Copy-Item terraform.tfvars.exemple terraform.tfvars
 
 Puis renseigner `terraform.tfvars`, en particulier :
 
-| Variable | Description |
-|---|---|
-| `ARM_*` | identifiants du Service Principal |
-| `location` | région Azure (voir Limitations) |
+| Variable           | Description                                                          |
+| ------------------ | -------------------------------------------------------------------- |
+| `ARM_*`            | identifiants du Service Principal                                    |
+| `location`         | région Azure (voir Limitations)                                      |
 | `allowed_ssh_cidr` | ton IP publique en `/32` (`Invoke-RestMethod https://api.ipify.org`) |
-| `ssh_public_key` | chemin de la clé **publique** (ex : `~/.ssh/azure-lab.pub`) |
+| `ssh_public_key`   | chemin de la clé **publique** (ex : `~/.ssh/azure-lab.pub`)          |
 
 Les autres variables ont des valeurs par défaut (taille de VM, image, plages réseau…).
 
@@ -114,11 +114,11 @@ terraform state list   # doit être vide
 
 Toutes les ressources qui le permettent reçoivent les tags définis dans `locals.tf` :
 
-| Tag | Valeur |
-|---|---|
-| `environment` | `var.environment_tag` (par défaut `dev`) |
-| `project` | `tf-learn-azure` |
-| `managed_by` | `terraform` (ne pas modifier ces ressources à la main) |
+| Tag           | Valeur                                                 |
+| ------------- | ------------------------------------------------------ |
+| `environment` | `var.environment_tag` (par défaut `dev`)               |
+| `project`     | `tf-learn-azure`                                       |
+| `managed_by`  | `terraform` (ne pas modifier ces ressources à la main) |
 
 ## Sécurité
 
